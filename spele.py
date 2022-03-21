@@ -9,8 +9,47 @@ mansLogs.title("TicTacToe")
 speletajsX=True #kuram spēlētājam kārta spēlēt, liks krustiņus
 count=0 #aizpildīto rūtiņu skaits
 
-def btnClick(button): #padod tukšu pogu
-    global speletajsX,count #kādi mainīgie  tiks izmantoti
+def reset():
+    btn1.config(state=NORMAL)
+    btn2.config(state=NORMAL)
+    btn3.config(state=NORMAL)
+    btn4.config(state=NORMAL)
+    btn5.config(state=NORMAL)
+    btn6.config(state=NORMAL)
+    btn7.config(state=NORMAL)
+    btn8.config(state=NORMAL)
+    btn9.config(state=NORMAL)
+
+    btn1["text"]=""
+    btn2["text"]=""
+    btn3["text"]=""
+    btn4["text"]=""
+    btn5["text"]=""
+    btn6["text"]=""
+    btn7["text"]=""
+    btn8["text"]=""
+    btn9["text"]=""
+
+    global winner, count, speletajsX
+    winner=False
+    count=0
+    speletajsX=True
+    return 0
+
+def disableButtons(): #spēle beidzas, pogas izslēgtas
+    btn1.config(state=DISABLED) #pogas stāvoklis izslēgts
+    btn2.config(state=DISABLED)
+    btn3.config(state=DISABLED)
+    btn4.config(state=DISABLED)
+    btn5.config(state=DISABLED)
+    btn6.config(state=DISABLED)
+    btn7.config(state=DISABLED)
+    btn8.config(state=DISABLED)
+    btn9.config(state=DISABLED)
+
+def btnClick(button): #padod visu pogu
+
+    global speletajsX,count #kādi mainīgie  tiks izmantoti visā programā
     if button["text"]==""and speletajsX==True:#spēlē X spēlētājs
         button["text"]="X"#maina uz X
         speletajsX=False
@@ -45,8 +84,24 @@ def checkWinner():
     or btn3["text"]=="O" and btn5["text"]=="O" and btn7["text"]=="O"):
      winner=True
      messagebox.showinfo("TicTacToe", "speletajs O ir uzvarētājs")
-    elif count==9:
+    elif count==9 and winner==False:
+     disableButtons()
      messagebox.showinfo("TicTacToe", "Neizšķirts")
+
+def infoLogs():
+    jaunsLogs=Toplevel()
+    jaunsLogs.title('Info par programmu')
+    jaunsLogs.geometry("300x300")
+    apraksts=Label(jaunsLogs,text='Spēles noteikumi')
+    apraksts.grid(row=0,column=0)
+    apraksts1=Label(jaunsLogs,text='Spele piedalas 2 speletaji: viens spele ar X simbolu un otrs ar 0 simbolu. Gajienus veic pamišus, sakot ar X speletaju. Gajienu drikst veikt tikai tukšajos laucinos. Sakotneji laukumu veido 9 tukši laucini, izkartoti 3x3 formata. Speles merkis ir novietot 3 savus simbolus kolonna, rinda vai pa diognali. Ja laukums ir aizpildits un neviens no speletajiem nav sasniedzis speles merki, spele beidzas ar neizškirtu rezultatu.', wraplength=295)
+    apraksts1.grid(row=1,column=0)
+
+
+    
+    return 0
+
+
 
 btn1=Button(mansLogs,text="",width=6,height=3,font=('Helvica',24),bg="light blue", command=lambda: btnClick(btn1))
 btn2=Button(mansLogs,text="",width=6,height=3,font=('Helvica',24),bg="light blue", command=lambda: btnClick(btn2))
@@ -58,7 +113,7 @@ btn7=Button(mansLogs,text="",width=6,height=3,font=('Helvica',24),bg="light blue
 btn8=Button(mansLogs,text="",width=6,height=3,font=('Helvica',24),bg="light blue", command=lambda: btnClick(btn8))
 btn9=Button(mansLogs,text="",width=6,height=3,font=('Helvica',24),bg="light blue", command=lambda: btnClick(btn9))
 
-btn1.grid(row=0,column=0)
+btn1.grid(row=0,column=0) #pievieno pogas
 btn2.grid(row=0,column=1)
 btn3.grid(row=0,column=2)
 
@@ -69,5 +124,20 @@ btn6.grid(row=1,column=2)
 btn7.grid(row=2,column=0)
 btn8.grid(row=2,column=1)
 btn9.grid(row=2,column=2)
+
+#Lielā izvēlne
+galvenaIzvelne=Menu(mansLogs)#izveido galveno izvēlni
+mansLogs.config(menu=galvenaIzvelne)#pievieno galvenajam logam
+#Mazā izvēlne
+opcijas=Menu(galvenaIzvelne,tearoff=False)#mazā izvēlne
+galvenaIzvelne.add_cascade(label="Opcijas",menu=opcijas)
+
+#lejupkrītošais saraksts
+#Komandas
+opcijas.add_command(label="Jauna spēle",command=reset)
+opcijas.add_command(label="Iziet",command=mansLogs.quit)
+
+galvenaIzvelne.add_command(label="Par programmu",command=infoLogs) # pievieno mazajai izvēlnei
+
 
 mansLogs.mainloop()
