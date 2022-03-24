@@ -3,7 +3,9 @@ from email import message
 from itertools import count
 from tkinter import *
 from tkinter import messagebox
-from turtle import width #paziņojumi, ieteikumi
+from tkinter import font
+from tkinter.font import BOLD
+from turtle import bgcolor, width #paziņojumi, ieteikumi
 mansLogs=Tk()
 mansLogs.title("TicTacToe")
 speletajsX=True #kuram spēlētājam kārta spēlēt, liks krustiņus
@@ -129,7 +131,7 @@ btn9.grid(row=2,column=2)
 galvenaIzvelne=Menu(mansLogs)#izveido galveno izvēlni
 mansLogs.config(menu=galvenaIzvelne)#pievieno galvenajam logam
 #Mazā izvēlne
-opcijas=Menu(galvenaIzvelne,tearoff=False)#mazā izvēlne
+opcijas=Menu(galvenaIzvelne,tearoff=False) #mazā izvēlne
 galvenaIzvelne.add_cascade(label="Opcijas",menu=opcijas)
 
 #lejupkrītošais saraksts
